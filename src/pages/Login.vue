@@ -2,12 +2,12 @@
   <div class="login-page relative h-screen flex">
     <div class="absolute w-full h-full bg-black opacity-25" />
 
-    <div class="mt-20 sm:mx-auto sm:w-full sm:max-w-md z-10 relative">
+    <div class="mt-20 mx-auto sm:w-full sm:max-w-md z-10 relative">
       <div class="title-card bg-purple-600 py-8 mx-10 text-center relative rounded-md">
         <h1 class="text-white font-bold text-xl">Login</h1>
       </div>
 
-      <el-form class="bg-white pt-20 pb-8 px-4 shadow sm:rounded-lg sm:px-10 text-center"
+      <el-form class="bg-white pt-20 pb-8 px-4 shadow rounded-lg sm:px-10 text-center"
                :model="model"
                @submit.native.prevent="onSubmit">
         <el-form-item>
@@ -45,7 +45,7 @@
 
 <script>
   import axios from 'axios';
-  import { setAuthToken } from '../plugins/auth';
+  import { setAuthToken } from '@/plugins/auth';
 
   export default {
     name: 'Login',
@@ -74,7 +74,14 @@
           })
           .catch((e) => {
             const { message, errors } = e.response.data;
-            this.$message.error(message);
+            const allErrors = [...errors.email, ...errors.password];
+
+            this.$notify({
+              type: 'error',
+              title: message,
+              message: allErrors.join('<br>'),
+              dangerouslyUseHTMLString: true
+            });
           })
           .finally(() => {
             this.loading = false;
