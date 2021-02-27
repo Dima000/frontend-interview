@@ -8,9 +8,12 @@
       </div>
 
       <el-form class="bg-white pt-20 pb-8 px-4 shadow rounded-lg sm:px-10 text-center"
+               novalidate
+               ref="form"
                :model="model"
+               :rules="validationRules"
                @submit.native.prevent="onSubmit">
-        <el-form-item>
+        <el-form-item prop="email">
           <el-input
               prefix-icon="el-icon-message"
               placeholder="Email"
@@ -19,7 +22,7 @@
           />
         </el-form-item>
 
-        <el-form-item>
+        <el-form-item prop="password">
           <el-input
               prefix-icon="el-icon-lock"
               placeholder="Password"
@@ -57,35 +60,55 @@
           password: ''
         },
         loading: false,
+        validationRules: {
+          email: [{
+            required: true,
+            trigger: 'blur'
+          }, {
+            type: 'email',
+            trigger: 'blur'
+          }],
+          password: [{
+            required: true,
+            trigger: 'blur'
+          }, {
+            min: 6,
+            trigger: 'blur'
+          }]
+        }
       }
     },
 
     methods: {
-      onSubmit() {
+      async onSubmit() {
         if (this.loading) {
           return;
         }
 
-        this.loading = true;
-        axios.post('/login', this.model)
-          .then(res => {
-            setAuthToken(res.data.accessToken);
-            this.$router.push('/products');
-          })
-          .catch((e) => {
-            const { message, errors } = e.response.data;
-            const allErrors = [...errors.email, ...errors.password];
+        try {
+          await this.$refs.form.validate();
+        } catch (e) {
+          return
+        }
 
-            this.$notify({
-              type: 'error',
-              title: message,
-              message: allErrors.join('<br>'),
-              dangerouslyUseHTMLString: true
-            });
-          })
-          .finally(() => {
-            this.loading = false;
-          })
+        this.loading = true;
+        try {
+          const res = await axios.post('/login', this.model);
+          setAuthToken(res.data.accessToken);
+          this.$router.push('/products');
+        } catch (e) {
+          const { message, errors = {} } = e.response.data;
+          const allErrors = Object.values(errors).flat();
+
+          this.$notify({
+            type: 'error',
+            title: message,
+            message: allErrors.join('<br>'),
+            dangerouslyUseHTMLString: true
+          });
+        }
+
+        this.loading = false;
       }
     }
   }
