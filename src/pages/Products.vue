@@ -8,6 +8,8 @@
         @open-details="selectedProduct = $event"
     />
     <div class="h-20 w-full" v-loading="loading" />
+
+    <product-item-details-modal :item="selectedProduct" @close="selectedProduct = null"/>
   </div>
 </template>
 
@@ -15,11 +17,12 @@
   import ProductItem from '@/components/ProductItem';
   import axios from 'axios';
   import { authHeader } from '@/plugins/axios-config';
+  import ProductItemDetailsModal from '@/components/ProductItemDetailsModal';
 
   export default {
     name: 'Products',
 
-    components: { ProductItem },
+    components: { ProductItemDetailsModal, ProductItem },
 
     data() {
       return {
