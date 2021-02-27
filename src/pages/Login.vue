@@ -1,10 +1,10 @@
 <template>
-  <div class="login-page relative h-screen flex">
+  <div class="auth-page relative h-screen flex">
     <div class="absolute w-full h-full bg-black opacity-25" />
 
     <div class="mt-20 mx-auto sm:w-full sm:max-w-md z-10 relative">
       <div class="title-card bg-purple-600 py-8 mx-10 text-center relative rounded-md">
-        <h1 class="text-white font-bold text-xl">Login</h1>
+        <h1 class="text-white font-bold text-2xl">Login</h1>
       </div>
 
       <el-form class="bg-white pt-20 pb-8 px-4 shadow rounded-lg sm:px-10 text-center"
@@ -30,12 +30,12 @@
 
         <el-button plain type="primary"
                    native-type="submit"
-                   class="mx-auto mb-5 text-uppercase"
+                   class="mx-auto mb-5 uppercase"
                    :loading="loading">
           Let't go
         </el-button>
 
-        <router-link to="/register" class="block hover:underline hover:text-blue-800">
+        <router-link to="/register" class="block hover:underline text-gray-800 hover:text-blue-800">
           Don't have an account yet? Register here
         </router-link>
       </el-form>
@@ -92,7 +92,7 @@
 </script>
 
 <style scoped>
-  .login-page {
+  .auth-page {
     background-image: url("/images/rohit-tandon-9wg5jCEPBsw-unsplash.jpg");
     background-repeat: no-repeat;
     background-size: cover;

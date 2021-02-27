@@ -8,7 +8,7 @@ export function getAuthToken() {
   return localStorage.getItem(TOKEN_NAME)
 }
 
-export function isLogged() {
+export function isAuthenticated() {
   const token = getAuthToken();
   return !!token;
 }

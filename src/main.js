@@ -9,7 +9,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import './assets/tailwind.css'
 
 Vue.config.productionTip = false
-Vue.use(ElementUI);
+Vue.use(ElementUI, { locale: 'en' });
 
 new Vue({
   router,
