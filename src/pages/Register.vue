@@ -117,9 +117,8 @@
         this.loading = true;
         axios.post('/register', this.model)
           .then(res => {
-
             setAuthToken(res.data.accessToken);
-            this.$router.push('/');
+            this.$router.push('/products');
             this.$notify({
               type: 'success',
               title: 'Register successful!',

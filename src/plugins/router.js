@@ -4,6 +4,7 @@ import Login from '@/pages/Login';
 import Register from '@/pages/Register';
 import Products from '@/pages/Products';
 import { isAuthenticated } from '@/plugins/auth';
+import ProductsPaginate from '@/pages/ProductsPaginate';
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,11 @@ const routes = [
     name: 'Products',
     component: Products
   },
+  {
+    path: '/products-paginate',
+    name: 'ProductsPaginate',
+    component: ProductsPaginate
+  },
 ]
 
 const router = new VueRouter({
@@ -31,12 +37,16 @@ const router = new VueRouter({
   routes
 })
 
+export const fullPages = ['Login', 'Register'];
+const authPages = ['Products', 'ProductsPaginate'];
+
 router.beforeEach((to, from, next) => {
   const isUserAuthenticated = isAuthenticated();
+  const toAuthPage = authPages.indexOf(to.name) !== -1;
 
-  if (isUserAuthenticated && to.name !== 'Products') {
-    next({ name: 'Products' });
-  } else if (!isUserAuthenticated && !to.name) {
+  if (!isUserAuthenticated && toAuthPage) {
+    next({ name: 'Login' });
+  } else if (!to.name) {
     next({ name: 'Login' });
   } else {
     next();

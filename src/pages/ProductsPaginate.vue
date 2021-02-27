@@ -3,16 +3,24 @@
     <div class="flex flex-wrap p-10 justify-around">
       <product-item
           class="m-4"
-          v-for="item in products"
+          v-for="item in products.data"
           :key="item.id"
           :item="item"
           @open-details="selectedProduct = $event"
       />
     </div>
 
+    <el-pagination
+        class="text-center"
+        background
+        layout="prev, pager, next"
+        :current-page.sync="products.current_page"
+        :page-size="products.per_page"
+        :total="products.total">
+    </el-pagination>
+
     <product-item-details-modal :item="selectedProduct" @close="selectedProduct = null" />
   </div>
-
 </template>
 
 <script>
@@ -23,13 +31,19 @@
   import Navbar from '@/components/Navbar';
 
   export default {
-    name: 'Products',
+    name: 'ProductsPaginate',
 
     components: { Navbar, ProductItemDetailsModal, ProductItem },
 
     data() {
       return {
-        products: [],
+        products: {
+          current_page: this.$route.query.page || 1,
+          data: [],
+          last_page: 3,
+          per_page: 5,
+          total: 0,
+        },
         selectedProduct: null,
         loading: true,
       }
@@ -38,11 +52,21 @@
     mounted() {
       this.loadProducts()
     },
+
+    watch: {
+      'products.current_page'(newPage) {
+        this.$router.push({ query: { ...this.$query, page: newPage } });
+        this.loadProducts();
+      }
+    },
     methods: {
       loadProducts() {
         this.loading = true;
 
-        axios.get('/products', { headers: authHeader() })
+        axios.get('/products/paginate', {
+          headers: authHeader(),
+          params: { page: this.products.current_page }
+        })
           .then(res => {
             this.products = res.data;
           })

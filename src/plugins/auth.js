@@ -8,6 +8,10 @@ export function getAuthToken() {
   return localStorage.getItem(TOKEN_NAME)
 }
 
+export function clearAuthToken() {
+  return localStorage.removeItem(TOKEN_NAME)
+}
+
 export function isAuthenticated() {
   const token = getAuthToken();
   return !!token;
