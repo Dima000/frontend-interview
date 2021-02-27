@@ -70,7 +70,7 @@
         axios.post('/login', this.model)
           .then(res => {
             setAuthToken(res.data.accessToken);
-            this.$router.push('/');
+            this.$router.push('/products');
           })
           .catch((e) => {
             const { message, errors } = e.response.data;

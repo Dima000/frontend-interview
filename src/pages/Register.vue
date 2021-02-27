@@ -78,7 +78,7 @@
           Get started
         </el-button>
 
-        <router-link to="/login" class="block hover:underline text-blue-700">
+        <router-link to="/" class="block hover:underline text-blue-700">
           Already have an account? Login here
         </router-link>
       </el-form>
