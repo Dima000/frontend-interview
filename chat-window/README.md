@@ -1,25 +1,8 @@
-# vue-exercise
-Description in the pdf file
+## Chat window frontend exercise
+Check description in the `Dev interview requirements.pdf`
 
-## Project setup
+### Project setup & start
 ```
 yarn install
-```
-
-### Compiles and hot-reloads for development
-```
 yarn serve
 ```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
